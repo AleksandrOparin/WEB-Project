@@ -106,20 +106,21 @@
 }
 
 .user-likes {
-    justify-content: space-around;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     padding: 5px 25px;
 }
 
-.like, .dislike {
-    width: 24px;
-    height: 24px;
-    background-image: url("/static/img/likedislike.png");
+.like-up, .like-down {
+    width: 48px;
+    height: 48px;
+    background-image: url("/static/img/arrow.png");
     cursor: pointer;
 }
 
-.dislike {
-    background-position: -48px;
+.like-down {
+    transform: rotate(180deg);
 }
 
 /* .lidiUp.set {
