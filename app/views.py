@@ -6,8 +6,10 @@ from . import models
 class Index:
     def index(request):
         context = {
+            'user_info': models.USER,
             'questions': models.QUESTIONS,
             'popular_tags': models.TAGS,
+            'best_users': models.BEST_USERS,
             }
         return render(request, 'index.html', context=context)
 
