@@ -1,2 +1,3 @@
 static/css/bootstrap.*
 .idea/
+venv/
