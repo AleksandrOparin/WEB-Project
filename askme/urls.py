@@ -19,6 +19,6 @@ from app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name='index'),
-    path('question/<int:question_id>', views.question, name='question'),
+    path('', views.Index.index, name='index'),
+    path('question/<int:question_id>', views.Question.question, name='question'),
 ]
