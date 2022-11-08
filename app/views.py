@@ -42,12 +42,17 @@ class Tag:
         questions_with_tag = list(filter(lambda question: tag_name in question['tags'], models.QUESTIONS))
         context = {
             'user_info': models.USER,
-            'tag': tag_name,
+            'tag_name': tag_name,
             'questions': questions_with_tag,
             'popular_tags': models.TAGS,
             'best_users': models.BEST_USERS
         }
         return render(request, 'tag.html', context=context)
 
-# def login(request):
-#     return render(request, 'login.html')
+class Login:
+    def login(request):
+        context = {
+            'popular_tags': models.TAGS,
+            'best_users': models.BEST_USERS
+        }
+        return render(request, 'login.html', context=context)

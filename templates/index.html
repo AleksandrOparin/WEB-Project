@@ -1,4 +1,4 @@
-{% extends "inc/base.html" %} 
+{% extends "include/base.html" %} 
 
 {% load static %} 
 
@@ -9,16 +9,10 @@
 
 
 {% block title %}
-
-<!-- Title -->
-<div class="title d-flex">
-    <h1>New questions</h1>
-    <h3 class="hot-questions">
-        <a href="#">Hot Questions</a>
-    </h3>
-</div>
-<!-- Title -->
-
+<h1>New questions</h1>
+<h3 class="hot-questions">
+    <a href="#">Hot Questions</a>
+</h3>
 {% endblock %}
 
 
@@ -26,12 +20,12 @@
 
 <!-- Questions -->
 {% for question in questions %} 
-    {% include 'inc/question_item.html' %}
+    {% include 'include/question_item.html' %}
 {% endfor%}
 <!-- Questions -->
 
 <!-- Pagination -->
-{% include 'inc/pagination.html' %}
+{% include 'include/pagination.html' %}
 <!-- Pagination -->
 
 {% endblock %}

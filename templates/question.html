@@ -1,4 +1,4 @@
-{% extends "inc/base.html" %}
+{% extends "include/base.html" %}
 
 {% load static %}
 
@@ -11,7 +11,7 @@
 {% block content %}
 
 <!-- Question -->
-{% include 'inc/question_item.html' %}
+{% include 'include/question_item.html' %}
 <!-- Question -->
 
 <!-- Line -->
@@ -21,12 +21,12 @@
 
 <!-- Answers -->
 {% for answer in question.answers %}
-    {% include 'inc/answer_item.html' %}
+    {% include 'include/answer_item.html' %}
 {% endfor %}
 <!-- Answers -->
 
 <!-- Pagination -->
-{% include 'inc/pagination.html' %}
+{% include 'include/pagination.html' %}
 <!-- Pagination -->
 
 <!-- Line -->

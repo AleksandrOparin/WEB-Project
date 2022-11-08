@@ -52,7 +52,7 @@
                         {% else %}
                             <!-- If not auth -->
                             <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                                <li class="nav-item"><a class="nav-link" href="#">Log in</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Log in</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#">Register</a></li>
                             </ul>
                         {% endif %}
@@ -67,7 +67,9 @@
         <main class="flex-shrink-0">
             <div class="container">
                 <!-- Title -->
-                {% block title %} {% endblock %}
+                <div class="title d-flex align-items-baseline">
+                    {% block title %} {% endblock %}
+                </div>
                 <!-- Title -->
 
                 <div class="row">
@@ -82,7 +84,7 @@
                         <div class="popular-tags">
                             <h2>Popular tags</h2>
                             <ul class="vert-tags">
-                                {% include 'inc/tag_list.html' with tag_list=popular_tags %}
+                                {% include 'include/tag_list.html' with tag_list=popular_tags %}
                             </ul>
                         </div>
 
@@ -92,7 +94,7 @@
                                 {% for user in best_users %}
                                     <li><a href="#">{{ user }}</a></li>
                                 {% endfor %}
-                                {% comment %} {% include 'inc/tag_list.html' with tag_list=best_users %} {% endcomment %}
+                                {% comment %} {% include 'include/tag_list.html' with tag_list=best_users %} {% endcomment %}
                             </ul>
                         </div>
                     </div>

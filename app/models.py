@@ -2,11 +2,10 @@ from django.db import models
 
 # for random data
 import random
-# print(random.randint(0, 9))
 
 USER = {
         'username': 'aleks',
-        'is_auth': True,
+        'is_auth': False,
     }
 
 QUESTIONS = [
