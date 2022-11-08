@@ -1,5 +1,5 @@
-static/css/bootstrap.*
 .idea/
+*/__pycache__/
+*.pyc
+static/css/bootstrap.*
 venv/
-askme/__pycache__/
-app/__pycache__/

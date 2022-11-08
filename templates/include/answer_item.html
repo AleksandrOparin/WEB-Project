@@ -1,0 +1,30 @@
+{% load static %}
+
+<div class="answer">
+    <div class="row">
+        <div class="col-3 d-flex">
+            <div class="user-likes">
+                <div class="like-up"></div>
+                <div class="like-count">{{ answer.like_count }}</div>
+                <div class="like-down"></div>
+            </div>
+
+            <div class="user-icon icon-large">
+                <img src="{% static 'img/avatar-1.jpg' %}" alt="" />
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="answer-text">{{ answer.text }}</div>
+            <div class="answer-footer d-flex">
+                <div class="form-check p-0">
+                    {% if answer.correct %}
+                        <input class="answer-check" type="checkbox" value="" id="answer-check" checked>
+                    {% else %}
+                        <input class="answer-check" type="checkbox" value="" id="answer-check">
+                    {% endif %}
+                    <label for="answer-check">Correct!</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
