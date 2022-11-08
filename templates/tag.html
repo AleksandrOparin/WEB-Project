@@ -1,208 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "inc/base.html" %} 
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Base</title>
+{% load static %} 
 
-    <link href="../static/css/bootstrap.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="../static/css/style.css" rel="stylesheet">
-</head>
+{% block page_title %}
+<title>Tag info</title>
+{% endblock %}
 
-<body>
-    <!-- Header -->
-    <header class="header container">
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <div class="container-fluid">
-                <a href="index.html" class="logo no-underline navbar-brand">
-                    <img width="48" src="/static/img/logo.png" alt="Logo: Stack Overflow">
-                    <span>Stack Overflow</span>
-                </a>
 
-                <form action="#" class="search-form" role="search">
-                    <input class="search-input" type="text" placeholder="Search">
-                    <button class="search-button btn">
-                        <img src="/static/img/search-icon.svg" alt="search-icon">
-                    </button>
-                </form>
+{% block title %}
 
-                <a href="ask.html" class="ask-button btn btn-outline-success">Ask!</a>
+<!-- Title -->
+<div class="title d-flex align-items-baseline">
+    <h1>Tag: &nbsp;</h1>
+    <h3 class="tag-info">{{ tag.tag_name }}</h3>
+</div>
+<!-- Title -->
 
-                <!-- Authentication -->
-                <div class="auth d-flex">
-                    <!-- If not auth -->
-                    <!-- <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Log in</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Register</a>
-                        </li>
-                    </ul> -->
+{% endblock %}
 
-                    <!-- If auth -->
-                    <div class="user-icon icon-medium">
-                        <img src="/static/img/avatar.jpg">
-                    </div>
-                    <div class="user-info">
-                        <a href="#" class="user-name no-underline">Username</a>
 
-                        <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="settings.html">Settings</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Log out</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- Authentication -->
-            </div>
-        </nav>
-    </header>
-    <!-- Header -->
+{% block content %}
 
-    <!-- Begin page content -->
-    <main class="flex-shrink-0">
-        <div class="container">
+<!-- Questions -->
+{% for question in questions %} 
+    {% include 'inc/question_item.html' %}
+{% endfor%}
+<!-- Questions -->
 
-            <!-- Title -->
-            <div class="title d-flex align-items-baseline">
-                <h1>Tag: &nbsp;</h1>
-                <h3 class="tag-info">Something tag</h3>
-            </div>
-            <!-- Title -->
+{% endblock %}
 
-            <div class="row">
-                <!-- Questions -->
-                <div class="col-8">
-                    <!-- Question -->
-                    <div class="question">
-                        <div class="row">
-                            <div class="col-3 d-flex">
-                                <div class="user-likes">
-                                    <div class="like-up"></div>
-                                    <div class="like-count">10</div>
-                                    <div class="like-down"></div>
-                                </div>
 
-                                <div class="user-icon icon-large">
-                                    <img src="/static/img/avatar-1.jpg" alt="" />
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <h4 class="question-title">
-                                    <a class="no-underline" href="question.html">Question 1</a>
-                                </h4>
-                                <div class="question-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ea, expedita hic magnam
-                                    officia qui quod sed soluta suscipit vitae.
-                                </div>
-                                <div class="question-footer d-flex">
-                                    <a class="question-answers" href="question.html">
-                                        <h6>
-                                            Answer
-                                            <span class="answer-count"> (3) </span>
-                                        </h6>
-                                    </a>
-                                    <div class="question-tags d-flex">
-                                        <h6>Tags:</h6>
-                                        <ul class="vert-tags">
-                                            <li><a href="#">Tag1</a></li>
-                                            <li><a href="#">Tag2</a></li>
-                                            <li><a href="#">Tag3</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Question -->
-
-                    <!-- Question -->
-                    <div class="question">
-                        <div class="row">
-                            <div class="col-3 d-flex">
-                                <div class="user-likes">
-                                    <div class="like-up"></div>
-                                    <div class="like-count">10</div>
-                                    <div class="like-down"></div>
-                                </div>
-
-                                <div class="user-icon icon-large">
-                                    <img src="/static/img/avatar-2.jpg" alt="" />
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <h4 class="question-title">
-                                    <a class="no-underline" href="question.html">Question 1</a>
-                                </h4>
-                                <div class="question-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ea, expedita hic magnam
-                                    officia qui quod sed soluta suscipit vitae.
-                                </div>
-                                <div class="question-footer d-flex">
-                                    <a class="question-answers" href="question.html">
-                                        <h6>
-                                            Answer
-                                            <span class="answer-count"> (3) </span>
-                                        </h6>
-                                    </a>
-                                    <div class="question-tags d-flex">
-                                        <h6>Tags:</h6>
-                                        <ul class="vert-tags">
-                                            <li><a href="#">Tag1</a></li>
-                                            <li><a href="#">Tag2</a></li>
-                                            <li><a href="#">Tag3</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Question -->
-
-                    <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </div>
-                <!-- Questions -->
-
-                <div class="col-2"></div>
-
-                <div class="col-2">
-                    <div class="popular-tags">
-                        <h2>Popular tags</h2>
-                        <ul class="vert-tags">
-                            <li><a href="#">Tag1</a></li>
-                            <li><a href="#">Tag2</a></li>
-                            <li><a href="#">Tag3</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="best-members">
-                        <h2>Best Members</h2>
-                        <ul class="horiz-tags">
-                            <li><a href="#">Tag1</a></li>
-                            <li><a href="#">Tag2</a></li>
-                            <li><a href="#">Tag3</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Main space -->
-
-        </div>
-    </main>
-    <!-- End page content -->
-</body>
-
-</html>
+<!-- Pagination -->
+{% include 'inc/pagination.html' %}
+<!-- Pagination -->

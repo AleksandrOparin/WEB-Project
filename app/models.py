@@ -16,7 +16,7 @@ QUESTIONS = [
         'title': f'Quesion {question_id}',
         'text': f'Text of question {question_id}',
         'answers_count': random.randint(1, 10),
-        'tags': ['tag' for i in range(random.randint(1, 10))],
+        'tags': [f'tag {i}' for i in range(random.randint(1, 10))],
         'answers': [],
     } for question_id in range(10)
 ]

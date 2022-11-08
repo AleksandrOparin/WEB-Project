@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.Index.index, name='index'),
     path('question/<int:question_id>', views.Question.question, name='question'),
-    path('ask', views.Ask.ask, name='ask')
+    path('ask', views.Ask.ask, name='ask'),
+    path('tag/<str:tag_name>', views.Tag.tag, name='tag'),
 ]
