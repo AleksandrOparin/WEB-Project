@@ -4,8 +4,11 @@ from django.db import models
 import random
 
 USER = {
-        'username': 'aleks',
-        'is_auth': False,
+        'login': 'aleks',
+        'email': 'aleks@mail.ru',
+        'nick_name': 'aleks666',
+        'avatar': '',
+        'is_auth': True,
     }
 
 QUESTIONS = [

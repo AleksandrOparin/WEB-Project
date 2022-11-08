@@ -35,10 +35,6 @@ class Ask:
 
 class Tag:
     def tag(request, tag_name: str):
-        # tag_item = models.QUESTIONS[]
-        # next(item for item in dicts if item["name"] == "Pam")
-        # next(question for question in QUESTIONS if question['tags'])
-        # list(filter(lambda person: person['name'] == 'Pam', people))
         questions_with_tag = list(filter(lambda question: tag_name in question['tags'], models.QUESTIONS))
         context = {
             'user_info': models.USER,
@@ -56,3 +52,12 @@ class Login:
             'best_users': models.BEST_USERS
         }
         return render(request, 'login.html', context=context)
+
+class Settings:
+    def settings(request):
+        context = {
+            'user_info': models.USER,
+            'popular_tags': models.TAGS,
+            'best_users': models.BEST_USERS
+        }
+        return render(request, 'settings.html', context=context)

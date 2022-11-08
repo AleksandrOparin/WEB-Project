@@ -1,170 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "include/base.html" %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Base</title>
+{% load static %}
 
-    <link href="../static/css/bootstrap.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="../static/css/style.css" rel="stylesheet">
-</head>
+{% block page_title %}
+<title>Settings</title>
+{% endblock %}
 
-<body>
-    <!-- Header -->
-    <header class="header container">
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <div class="container-fluid">
-                <a href="index.html" class="logo no-underline navbar-brand">
-                    <img width="48" src="/static/img/logo.png" alt="Logo: Stack Overflow">
-                    <span>Stack Overflow</span>
-                </a>
 
-                <form action="#" class="search-form" role="search">
-                    <input class="search-input" type="text" placeholder="Search">
-                    <button class="search-button btn">
-                        <img src="/static/img/search-icon.svg" alt="search-icon">
-                    </button>
-                </form>
+{% block title %}
+<h1>Settings: &nbsp;</h1>
+<h3 class="tag-info">{{ user_info.login }}</h3>
+{% endblock %}
 
-                <a href="ask.html" class="ask-button btn btn-outline-success">Ask!</a>
 
-                <!-- Authentication -->
-                <div class="auth d-flex">
-                    <!-- If not auth -->
-                    <!-- <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Log in</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Register</a>
-                        </li>
-                    </ul> -->
+{% block content %}
 
-                    <!-- If auth -->
-                    <div class="user-icon icon-medium">
-                        <img src="/static/img/avatar.jpg">
-                    </div>
-                    <div class="user-info">
-                        <a href="#" class="user-name no-underline">Username</a>
-
-                        <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Settings</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Log out</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- Authentication -->
-            </div>
-        </nav>
-    </header>
-    <!-- Header -->
-
-    <!-- Begin page content -->
-    <main class="flex-shrink-0">
-        <div class="container">
-
-            <!-- Title -->
-            <div class="title d-flex align-items-baseline">
-                <h1>Settings: &nbsp;</h1>
-                <h3 class="tag-info">Username</h3>
-            </div>
-            <!-- Title -->
-
-            <div class="row">
-                <div class="col-8">
-                    <form action="#" class="was-validated">
-                        <!-- Login -->
-                        <div class="row g-2 align-items-baseline">
-                            <div class="col-3">
-                                <label class="form-label">Login</label>
-                            </div>
-                            <div class="col-9">
-                                <input type="text" class="form-control" id="login" placeholder="Login" value="User login" required>
-                                <div class="invalid-feedback">Please enter a login.</div>
-                            </div>
-                        </div>
-
-                        <!-- Email -->
-                        <div class="row g-2 align-items-baseline mt-3">
-                            <div class="col-3">
-                                <label class="form-label">Email</label>
-                            </div>
-                            <div class="col-9">
-                                <input type="email" class="form-control" id="email" placeholder="vasiliy.pupkin@mail.ru" value="user.email@mail.ru" required>
-                                <div class="invalid-feedback">Please enter an email.</div>
-                            </div>
-                        </div>
-                    
-                        <!-- NickName -->
-                        <div class="row g-2 align-items-baseline mt-3">
-                            <div class="col-3">
-                                <label class="form-label">NickName</label>
-                            </div>
-                            <div class="col-9">
-                                <input type="text" class="form-control" id="nick-name" placeholder="NickName" value="User NickName" required>
-                                <div class="invalid-feedback">Please enter a NickName.</div>
-                            </div>
-                        </div>
-
-                        <!-- Avatar -->
-                        <div class="row g-2 align-items-baseline mt-3">
-                            <div class="col-3">
-                                <label class="form-label">Apload avatar</label>
-                            </div>
-                            <div class="col-9">
-                                <div class="user-icon icon-extra-large ">
-                                    <img src="">
-                                </div>
-                                <input type="file" class="form-control mt-3" id="nick-name" required>
-                                <div class="invalid-feedback">Please enter an avatar.</div>
-                            </div>
-                        </div>
-
-                        <!-- Save -->
-                        <div class="row g-2 align-items-baseline mt-3">
-                            <div class="col-5"></div>
-                            <div class="col-2">
-                                <button type="submit" class="btn btn-primary w-100">Save</button>
-                            </div>
-                            <div class="col-5"></div>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="col-2"></div>
-
-                <div class="col-2">
-                    <div class="popular-tags">
-                        <h2>Popular tags</h2>
-                        <ul class="vert-tags">
-                            <li><a href="#">Tag1</a></li>
-                            <li><a href="#">Tag2</a></li>
-                            <li><a href="#">Tag3</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="best-members">
-                        <h2>Best Members</h2>
-                        <ul class="horiz-tags">
-                            <li><a href="#">Tag1</a></li>
-                            <li><a href="#">Tag2</a></li>
-                            <li><a href="#">Tag3</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Main space -->
-
+<form action="#" class="was-validated">
+    <!-- Login -->
+    <div class="row g-2 align-items-baseline">
+        <div class="col-3">
+            <label class="form-label">Login</label>
         </div>
-    </main>
-    <!-- End page content -->
-</body>
+        <div class="col-9">
+            <input type="text" class="form-control" id="login" placeholder="Login"
+            value="{{ user_info.login }}" required>
+            <div class="invalid-feedback">Please enter a login.</div>
+        </div>
+    </div>
 
-</html>
+    <!-- Email -->
+    <div class="row g-2 align-items-baseline mt-3">
+        <div class="col-3">
+            <label class="form-label">Email</label>
+        </div>
+        <div class="col-9">
+            <input type="email" class="form-control" id="email" placeholder="vasiliy.pupkin@mail.ru"
+            value="{{ user_info.email }}" required>
+            <div class="invalid-feedback">Please enter an email.</div>
+        </div>
+    </div>
+
+    <!-- NickName -->
+    <div class="row g-2 align-items-baseline mt-3">
+        <div class="col-3">
+            <label class="form-label">NickName</label>
+        </div>
+        <div class="col-9">
+            <input type="text" class="form-control" id="nick-name" placeholder="NickName"
+            value="{{ user_info.nick_name }}" required>
+            <div class="invalid-feedback">Please enter a NickName.</div>
+        </div>
+    </div>
+
+    <!-- Avatar -->
+    <div class="row g-2 align-items-baseline mt-3">
+        <div class="col-3">
+            <label class="form-label">Apload avatar</label>
+        </div>
+        <div class="col-9">
+            <div class="user-icon icon-extra-large">
+                {% if user_info.avatar %}
+                    <img src="{% static user_info.avatar %}">
+                {% else %}
+                    <img src="{% static 'img/default-avatar-icon.jpg' %}">
+                {% endif %}
+            </div>
+            <input type="file" class="form-control mt-3" id="avatar">
+        </div>
+    </div>
+
+    <!-- Save -->
+    <div class="row g-2 align-items-baseline mt-3">
+        <div class="col-5"></div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary w-100">Save</button>
+        </div>
+        <div class="col-5"></div>
+    </div>
+</form>
+
+{% endblock %}
