@@ -69,3 +69,14 @@ class Signup:
             'best_users': models.BEST_USERS
         }
         return render(request, 'signup.html', context=context)
+
+class HotQuestions:
+    def hot_questions(request):
+        hot_questions = list(filter(lambda question: question['like_count'] >= 50, models.QUESTIONS))
+        context = {
+            'user_info': models.USER,
+            'questions': hot_questions,
+            'popular_tags': models.TAGS,
+            'best_users': models.BEST_USERS
+        }
+        return render(request, 'hot_questions.html', context=context)

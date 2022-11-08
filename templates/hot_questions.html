@@ -1,0 +1,28 @@
+{% extends "include/base.html" %} 
+
+{% load static %} 
+
+
+{% block page_title %}
+<title>Hot questions</title>
+{% endblock %}
+
+
+{% block title %}
+<h1>Hot Questions</h1>
+{% endblock %}
+
+
+{% block content %}
+
+<!-- Questions -->
+{% for question in questions %} 
+    {% include 'include/question_item.html' %}
+{% endfor%}
+<!-- Questions -->
+
+<!-- Pagination -->
+{% include 'include/pagination.html' %}
+<!-- Pagination -->
+
+{% endblock %}

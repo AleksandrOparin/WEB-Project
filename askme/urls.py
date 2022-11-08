@@ -26,4 +26,5 @@ urlpatterns = [
     path('login', views.Login.login, name='login'),
     path('settings', views.Settings.settings, name='settings'),
     path('signup', views.Signup.signup, name='signup'),
+    path('hot', views.HotQuestions.hot_questions, name='hot_questions'),
 ]
