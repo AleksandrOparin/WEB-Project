@@ -29,9 +29,7 @@
                     <h6>Tags:&nbsp;</h6>
 
                     <ul class="vert-tags">
-                    {% for tag in question.tags %}
-                        <li><a href="#">{{ tag }}</a></li>
-                    {% endfor %}
+                        {% include 'inc/tag_list.html' with tag_list=question.tags %}
                     </ul>
                 </div>
             </div>

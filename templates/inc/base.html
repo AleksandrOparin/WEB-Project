@@ -9,8 +9,6 @@
         <title>Base</title>
 
         <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
-
-        <!-- Custom styles for this template -->
         <link href="{% static 'css/style.css' %}" rel="stylesheet" />
     </head>
 
@@ -83,18 +81,17 @@
                         <div class="popular-tags">
                             <h2>Popular tags</h2>
                             <ul class="vert-tags">
-                                {% for tag in popular_tags %}
-                                    <li><a href="#">{{ tag }}</a></li>
-                                {% endfor %}
+                                {% include 'inc/tag_list.html' with tag_list=popular_tags %}
                             </ul>
                         </div>
 
                         <div class="best-members">
                             <h2>Best Members</h2>
                             <ul class="horiz-tags">
-                                {% for tag in best_users %}
-                                    <li><a href="#">{{ tag }}</a></li>
+                                {% for user in best_users %}
+                                    <li><a href="#">{{ user }}</a></li>
                                 {% endfor %}
+                                {% comment %} {% include 'inc/tag_list.html' with tag_list=best_users %} {% endcomment %}
                             </ul>
                         </div>
                     </div>
