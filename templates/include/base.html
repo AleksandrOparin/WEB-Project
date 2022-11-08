@@ -46,14 +46,20 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="{% url 'settings' %}">Settings</a>
                                     </li>
-                                    <li class="nav-item"><a class="nav-link" href="#">Log out</a></li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'index' %}">Log out</a>
+                                    </li>
                                 </ul>
                             </div>
                         {% else %}
                             <!-- If not auth -->
                             <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Log in</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Register</a></li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'login' %}">Log in</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'signup' %}">Register</a>
+                                </li>
                             </ul>
                         {% endif %}
                     </div>

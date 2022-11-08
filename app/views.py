@@ -61,3 +61,11 @@ class Settings:
             'best_users': models.BEST_USERS
         }
         return render(request, 'settings.html', context=context)
+
+class Signup:
+    def signup(request):
+        context = {
+            'popular_tags': models.TAGS,
+            'best_users': models.BEST_USERS
+        }
+        return render(request, 'signup.html', context=context)

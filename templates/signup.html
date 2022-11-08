@@ -1,0 +1,106 @@
+{% extends "include/base.html" %}
+
+{% load static %}
+
+
+{% block page_title %}
+<title>Registration</title>
+{% endblock %}
+
+
+{% block title %}
+<h1>Registration</h1>
+{% endblock %}
+
+
+{% block content %}
+
+<form action="#" class="was-validated">
+    <!-- Login -->
+    <div class="row g-2 align-items-baseline">
+        <div class="col-3">
+            <label class="form-label">Login</label>
+        </div>
+        <div class="col-9">
+            <input type="text" class="form-control" id="login" placeholder="Login" required>
+            <div class="invalid-feedback">Please enter a login.</div>
+        </div>
+    </div>
+
+    <!-- Email -->
+    <div class="row g-2 align-items-baseline mt-3">
+        <div class="col-3">
+            <label class="form-label">Email</label>
+        </div>
+        <div class="col-9">
+            <input type="email" class="form-control" id="email" placeholder="vasiliy.pupkin@mail.ru" required>
+            <div class="invalid-feedback">Please enter an email.</div>
+        </div>
+    </div>
+
+    <!-- NickName -->
+    <div class="row g-2 align-items-baseline mt-3">
+        <div class="col-3">
+            <label class="form-label">NickName</label>
+        </div>
+        <div class="col-9">
+            <input type="text" class="form-control" id="nick-name" placeholder="NickName" required>
+            <div class="invalid-feedback">Please enter a NickName.</div>
+        </div>
+    </div>
+
+    <!-- Password -->
+    <div class="row g-2 align-items-baseline mt-3">
+        <div class="col-3">
+            <label class="form-label">Password</label>
+        </div>
+        <div class="col-9">
+            <input type="password" class="form-control" id="password" placeholder="Password" required>
+        </div>
+    </div>
+
+    <!-- Repeat password -->
+    <div class="row g-2 align-items-baseline mt-3">
+        <div class="col-3">
+            <label class="form-label">Repeat password</label>
+        </div>
+        <div class="col-9">
+            <input type="password" class="form-control" id="repeat-password" placeholder="Repeat password" required>
+            <div class="invalid-feedback">Please enter a password.</div>
+        </div>
+    </div>
+
+    <!-- Avatar -->
+    <div class="row g-2 align-items-baseline mt-3">
+        <div class="col-3">
+            <label class="form-label">Apload avatar</label>
+        </div>
+        <div class="col-9">
+            <div class="user-icon icon-extra-large ">
+                <img src="">
+            </div>
+            <input type="file" class="form-control mt-3" id="nick-name" required>
+            <div class="invalid-feedback">Please enter an avatar.</div>
+        </div>
+    </div>
+
+    <!-- Invalid info (dsplay = none) -->
+    <div class="row g-2 align-items-baseline mt-3">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <span class="invalid-user-info">Sorry, this email adress already registred!</span>
+        </div>
+        <div class="col-2"></div>
+    </div>
+
+    <!-- Register -->
+    <div class="row g-2 align-items-baseline mt-3 mb-3">
+        <div class="col-5"></div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+        </div>
+        <div class="col-5"></div>
+    </div>
+</form>
+
+{% endblock %}
