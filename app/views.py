@@ -25,7 +25,10 @@ class Question:
 
 class Ask:
     def ask(request):
-        context = {}
+        context = {
+            'popular_tags': models.TAGS,
+            'best_users': models.BEST_USERS
+        }
         return render(request, 'ask.html', context=context)
 
 # def ask(request):
