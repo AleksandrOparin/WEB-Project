@@ -28,3 +28,5 @@ urlpatterns = [
     path('signup', views.Signup.signup, name='signup'),
     path('hot', views.HotQuestions.hot_questions, name='hot_questions'),
 ]
+
+# handler404 = views.error_404

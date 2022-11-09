@@ -22,9 +22,8 @@
 {% endfor%}
 <!-- Questions -->
 
+<!-- Pagination -->
+{% include 'include/pagination.html' with page_obj=questions %}
+<!-- Pagination -->
+
 {% endblock %}
-
-
-<!-- Pagination -->
-{% include 'include/pagination.html' %}
-<!-- Pagination -->

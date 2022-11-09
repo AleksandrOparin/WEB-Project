@@ -26,7 +26,7 @@ SECRET_KEY = 'rurx_w2w%6(0seh0_o(=2684-pb18vk0*w40ds8mv0$$dp!py0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

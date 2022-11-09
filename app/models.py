@@ -1,7 +1,6 @@
 from django.db import models
 
-# for random data
-import random
+import random # for random data
 
 USER = {
         'login': 'aleks',
@@ -24,7 +23,6 @@ QUESTIONS = [
 ]
 
 for question in QUESTIONS:
-
     question['answers'] = [
         {
             'id': answer_id,
