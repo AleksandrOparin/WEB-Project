@@ -128,14 +128,6 @@
     transform: rotate(180deg);
 }
 
-/* .lidiUp.set {
-    background-position: -24px;
-}
-
-.lidiDown.set {
-    background-position: -72px;
-} */
-
 .like-count,
 .dislike-count {
     font-size: 18px;
@@ -171,4 +163,21 @@ textarea {
 .invalid-user-info {
     color: red;
     display: none;
+}
+
+.btn-go-home {
+    position: relative;
+    z-index: 200;
+    margin: 15px auto;
+    width: 100px;
+    padding: 10px 15px;
+    border: 1px solid #FFCB39;
+    border-radius: 100px;
+    font-weight: 400;
+    display: block;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 2px;
+    font-size: 11px;
 }

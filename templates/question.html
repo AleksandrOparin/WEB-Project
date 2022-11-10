@@ -20,13 +20,13 @@
 <!-- Line -->
 
 <!-- Answers -->
-{% for answer in question.answers %}
+{% for answer in answers %}
     {% include 'include/answer_item.html' %}
 {% endfor %}
 <!-- Answers -->
 
 <!-- Pagination -->
-{% include 'include/pagination.html' %}
+{% include 'include/pagination.html' with page_obj=answers %}
 <!-- Pagination -->
 
 <!-- Line -->

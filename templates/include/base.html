@@ -35,32 +35,32 @@
                     <!-- Authentication -->
                     <div class="auth d-flex">
                         {% if user_info.is_auth %}
-                            <!-- If auth -->
-                            <div class="user-icon icon-medium">
-                                <img src="{% static 'img/avatar.jpg' %}" />
-                            </div>
-                            <div class="user-info">
-                                <a href="{% url 'settings' %}" class="user-name no-underline">{{ user_info.login }}</a>
+                        <!-- If auth -->
+                        <div class="user-icon icon-medium">
+                            <img src="{% static 'img/avatar.jpg' %}" />
+                        </div>
+                        <div class="user-info">
+                            <a href="{% url 'settings' %}" class="user-name no-underline">{{ user_info.login }}</a>
 
-                                <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{% url 'settings' %}">Settings</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{% url 'index' %}">Log out</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        {% else %}
-                            <!-- If not auth -->
                             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'login' %}">Log in</a>
+                                    <a class="nav-link" href="{% url 'settings' %}">Settings</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'signup' %}">Register</a>
+                                    <a class="nav-link" href="{% url 'index' %}">Log out</a>
                                 </li>
                             </ul>
+                        </div>
+                        {% else %}
+                        <!-- If not auth -->
+                        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'login' %}">Log in</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'signup' %}">Register</a>
+                            </li>
+                        </ul>
                         {% endif %}
                     </div>
                     <!-- Authentication -->
@@ -73,9 +73,7 @@
         <main class="flex-shrink-0">
             <div class="container">
                 <!-- Title -->
-                <div class="title d-flex align-items-baseline">
-                    {% block title %} {% endblock %}
-                </div>
+                <div class="title d-flex align-items-baseline">{% block title %} {% endblock %}</div>
                 <!-- Title -->
 
                 <div class="row">
@@ -98,9 +96,9 @@
                             <h2>Best Members</h2>
                             <ul class="horiz-tags">
                                 {% for user in best_users %}
-                                    <li><a href="#">{{ user }}</a></li>
-                                {% endfor %}
-                                {% comment %} {% include 'include/tag_list.html' with tag_list=best_users %} {% endcomment %}
+                                <li><a href="#">{{ user }}</a></li>
+                                {% endfor %} {% comment %} {% include 'include/tag_list.html' with tag_list=best_users
+                                %} {% endcomment %}
                             </ul>
                         </div>
                     </div>

@@ -7,7 +7,7 @@ USER = {
         'email': 'aleks@mail.ru',
         'nick_name': 'aleks666',
         'avatar': '',
-        'is_auth': True,
+        'is_auth': False,
     }
 
 QUESTIONS = [
