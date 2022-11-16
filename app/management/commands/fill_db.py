@@ -38,7 +38,7 @@ class Command(BaseCommand):
             avatar = f'/app/DBImages/test-avatar-{random.randint(1, 6)}.jpg'
 
             user = User(username=username, email=email, password=password)
-            profile = Profile(avatar=avatar)
+            profile = Profile(user=user, avatar=avatar)
 
             users.append(user)
             profiles.append(profile)
