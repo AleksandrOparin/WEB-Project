@@ -36,6 +36,9 @@ class Question(models.Model):
     def get_tags(self):
         return self.tags.all()
 
+    def get_text(self):
+        return (self.text[:140] + '...') if len(self.text) > 160 else self.text
+
     def get_answers(self):
         return self.answers.all()
 

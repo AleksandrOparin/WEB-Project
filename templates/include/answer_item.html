@@ -5,12 +5,12 @@
         <div class="col-3 d-flex">
             <div class="user-likes">
                 <div class="like-up"></div>
-                <div class="like-count">{{ answer.like_count }}</div>
+                <div class="like-count">{{ answer.get_likes }}</div>
                 <div class="like-down"></div>
             </div>
 
             <div class="user-icon icon-large">
-                <img src="{% static 'img/avatar-1.jpg' %}" alt="" />
+                <img src="{{ answer.author.avatar.url }}" alt="" />
             </div>
         </div>
         <div class="col-9">

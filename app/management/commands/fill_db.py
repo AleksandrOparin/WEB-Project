@@ -26,24 +26,32 @@ class Command(BaseCommand):
         parser.add_argument('--ratio')
 
 
-    def create_users_and_profiles(self, count : int):
-        print("Start profiles generating")
+    def create_users(self, count : int):
+        print("Start users generating")
         users = []
-        profiles = []
 
         for i in range(count):
             username = self.faker.user_name()
             email = self.faker.email()
             password = self.faker.password()
-            avatar = f'/app/DBImages/test-avatar-{random.randint(1, 6)}.jpg'
 
             user = User(username=username, email=email, password=password)
-            profile = Profile(user=user, avatar=avatar)
-
             users.append(user)
-            profiles.append(profile)
 
         User.objects.bulk_create(users)
+        print("End users generating")
+
+    
+    def create_profiles(self, count : int):
+        print("Start profiles generating")
+        user = User.objects.all()
+        profiles = []
+
+        for i in range(count):
+            avatar = f'/static/img/test-avatar-{random.randint(1, 6)}.jpg'
+            profile = Profile(user=user[i], avatar=avatar)
+            profiles.append(profile)
+
         Profile.objects.bulk_create(profiles)
         print("End profiles generating")
 
@@ -75,12 +83,12 @@ class Command(BaseCommand):
             tags_count = random.randint(1, 6)
             for j in range(tags_count):
                 tags.append(random.choice(Tag.objects.all()))
-            questions[i].tags.add(*tags[:n_tags])
+            questions[i].tags.add(*tags[:tags_count])
 
         print("End questions generating")
 
 
-    def create_answers(self, cout : int):
+    def create_answers(self, count : int):
         print("Start answers generating")
         questions = Question.objects.all()
         profiles = Profile.objects.all()
@@ -97,7 +105,7 @@ class Command(BaseCommand):
         print("End answers generating")
 
 
-    def create_questions_likes(self, cout : int):
+    def create_questions_likes(self, count : int):
         print("Start Qlikes generating")
         profiles = Profile.objects.all()
 
@@ -131,9 +139,10 @@ class Command(BaseCommand):
         else 
             ratio = 10000
 
-        self.create_users_and_profiles(ratio * USER_COUNT)
+        self.create_users(ratio * USER_COUNT)
+        self.create_profiles(ratio * USER_COUNT)
         self.create_tags(ratio * TAGS_COUNT)
         self.create_questions(ratio * QUESTIONS_COUNT)
         self.create_answers(ratio * ANSWERS_COUNT)
-        self.create_questions_likes(ratio * VOTES_COUNT / 2)
-        self.create_answers_likes(ratio * VOTES_COUNT / 2)
+        self.create_questions_likes(int(ratio * VOTES_COUNT / 2))
+        self.create_answers_likes(int(ratio * VOTES_COUNT / 2))

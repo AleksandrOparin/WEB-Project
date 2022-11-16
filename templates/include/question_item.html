@@ -5,24 +5,24 @@
         <div class="col-3 d-flex">
             <div class="user-likes">
                 <div class="like-up"></div>
-                <div class="like-count">{{ question.like_count}}</div>
+                <div class="like-count">{{ question.get_likes }}</div>
                 <div class="like-down"></div>
             </div>
 
             <div class="user-icon icon-large">
-                <img src="{% static 'img/avatar-1.jpg' %}" alt="" />
+                <img src="{{ question.author.avatar.url }}" alt="" />
             </div>
         </div>
         <div class="col-9">
             <h4 class="question-title">
                 <a class="no-underline" href="{% url 'question' question_id=question.id %}">{{ question.title }}</a>
             </h4>
-            <div class="question-text">{{ question.text}}</div>
+            <div class="question-text">{{ question.get_text }}</div>
             <div class="question-footer d-flex align-items-baseline">
                 <a class="question-answers" href="{% url 'question' question_id=question.id %}">
                     <h6>
                         Answer
-                        <span class="answer-count">({{ question.answers_count }})</span>
+                        <span class="answer-count">({{ question.answers.count }})</span>
                     </h6>
                 </a>
                 <div class="question-tags d-flex align-items-baseline">

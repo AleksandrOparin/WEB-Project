@@ -9,7 +9,7 @@ def index(request):
     popular_tags = models.Tag.objects.popular_tags()
     best_users = models.Profile.objects.top_profiles()
 
-    page_questions = paginate(questions, request, 4)
+    page_questions = paginate(questions, request, 20)
 
     context = {
         # 'user_info': models.USER,
@@ -32,7 +32,7 @@ def question(request, question_id: int):
     popular_tags = models.Tag.objects.popular_tags()
     best_users = models.Profile.objects.top_profiles()
 
-    question_page_answers = paginate(answers, request, 4)
+    question_page_answers = paginate(answers, request, 20)
 
     context = {
         # 'user_info': models.USER,
@@ -69,7 +69,7 @@ def tag(request, tag_id: int):
     popular_tags = models.Tag.objects.popular_tags()
     best_users = models.Profile.objects.top_profiles()
 
-    page_questions_with_tag = paginate(questions_with_tag, request, 4)
+    page_questions_with_tag = paginate(questions_with_tag, request, 20)
 
     context = {
         # 'user_info': models.USER,
@@ -129,7 +129,7 @@ def hot_questions(request):
     popular_tags = models.Tag.objects.popular_tags()
     best_users = models.Profile.objects.top_profiles()
 
-    page_hot_questions = paginate(hot_questions, request, 4)
+    page_hot_questions = paginate(hot_questions, request, 20)
 
     context = {
         # 'user_info': models.USER,
