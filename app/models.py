@@ -131,10 +131,10 @@ class Like(models.Model):
     objects = LikeManager()
 
 
-# USER = {
-#         'login': 'aleks',
-#         'email': 'aleks@mail.ru',
-#         'nick_name': 'aleks666',
-#         'avatar': '',
-#         'is_auth': False,
-#     }
+USER = {
+    'login': 'aleks',
+    'email': 'aleks@mail.ru',
+    'nick_name': 'aleks666',
+    'avatar': '',
+    'is_auth': True,
+}

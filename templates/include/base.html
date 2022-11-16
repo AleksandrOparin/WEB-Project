@@ -37,7 +37,7 @@
                         {% if user_info.is_auth %}
                         <!-- If auth -->
                         <div class="user-icon icon-medium">
-                            <img src="{% static 'img/avatar.jpg' %}" />
+                            <img src="{% static 'default-avatar-icon' %}" />
                         </div>
                         <div class="user-info">
                             <a href="{% url 'settings' %}" class="user-name no-underline">{{ user_info.login }}</a>

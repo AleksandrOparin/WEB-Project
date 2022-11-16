@@ -134,9 +134,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         retio = None
-        if options['ratio']
+        if options['ratio']:
             ratio = int(options['ratio'])
-        else 
+        else:
             ratio = 10000
 
         self.create_users(ratio * USER_COUNT)
