@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseNotFound, Http404
+from django.http import HttpResponse
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
@@ -23,7 +23,7 @@ def question(request, question_id: int):
     if any(question['id'] == question_id for question in models.QUESTIONS):
         question_item = models.QUESTIONS[question_id]
     else:
-        raise Http404
+        return render(request, 'errors/404.html')
 
     question_page_answers = paginate(question_item['answers'], request, 4)
 
@@ -49,7 +49,7 @@ def ask(request):
 def tag(request, tag_name: str):
     questions_with_tag = list(filter(lambda question: tag_name in question['tags'], models.QUESTIONS))
     if not any(questions_with_tag):
-        raise Http404
+        return render(request, 'errors/404.html')
 
     page_questions_with_tag = paginate(questions_with_tag, request, 4)
 
@@ -91,7 +91,7 @@ def signup(request):
 def hot_questions(request):
     hot_questions = list(filter(lambda question: question['like_count'] >= 50, models.QUESTIONS))
     if not any(hot_questions):
-        raise Http404
+        return render(request, 'errors/404.html')
 
     context = {
         'user_info': models.USER,
@@ -100,10 +100,6 @@ def hot_questions(request):
         'best_users': models.BEST_USERS
     }
     return render(request, 'hot_questions.html', context=context)
-
-def error_404(request, exception):
-    data = {}
-    return render(request, 'errors/404.html', data)
 
 def paginate(objects_list, request, items_per_page=10):
     paginator = Paginator(objects_list, items_per_page)
