@@ -31,7 +31,7 @@ class Command(BaseCommand):
         users = []
 
         for i in range(count):
-            username = self.faker.user_name()
+            username = self.faker.unique.user_name()
             email = self.faker.email()
             password = self.faker.password()
 
