@@ -96,9 +96,8 @@
                             <h2>Best Members</h2>
                             <ul class="horiz-tags">
                                 {% for user in best_users %}
-                                <li><a href="#">{{ user }}</a></li>
-                                {% endfor %} {% comment %} {% include 'include/tag_list.html' with tag_list=best_users
-                                %} {% endcomment %}
+                                    <li><a href="#">{{ user }}</a></li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>

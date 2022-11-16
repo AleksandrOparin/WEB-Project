@@ -1,5 +1,5 @@
 {% load static %}
 
-{% for tag in tag_list %}
-    <li><a href="{% url 'tag' tag_name=tag %}">{{ tag }}</a></li>
+{% for tag in tag_list.all %}
+    <li><a href="{% url 'tag' tag_id=tag.id %}">{{ tag }}</a></li>
 {% endfor %}

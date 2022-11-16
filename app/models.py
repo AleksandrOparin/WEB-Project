@@ -8,6 +8,19 @@ from django.db.models import Sum, Count
 
 from django.db.models.deletion import CASCADE
 
+
+class QuestionManager(models.Manager):
+    def top(self):
+        return self.annotate(rating = Sum('votes__vote')).order_by('-rating')
+
+    def new(self):
+        return self.order_by('-pub_date')
+
+    def tag(self, tag_id):
+        tag = Tag.objects.get(id = tag_id)
+        return tag.questions.annotate(rating = Sum('votes__vote')).order_by('-rating')
+
+
 class Question(models.Model):
     title = models.CharField(max_length=255)
     text = models.TextField()
@@ -16,8 +29,25 @@ class Question(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     votes = GenericRelation('Like', related_query_name='questions')
 
-    # def __str__(self):
-    #     return self.title
+    objects = QuestionManager()
+
+    def __str__(self):
+        return self.title
+    
+    def get_tags(self):
+        return self.tags.all()
+
+    def get_answers(self):
+        return self.answers.all()
+
+    def get_likes(self):
+        return self.votes.sum_likes()
+
+
+class AnswerManager(models.Manager):
+    def ordered_answers(self, quest_id):
+        return self.filter(question_id = quest_id).annotate(rating = Sum('votes__vote')).order_by('-correct').order_by('-rating')
+
 
 class Answer(models.Model):
     text = models.TextField()
@@ -27,21 +57,56 @@ class Answer(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     votes = GenericRelation('Like', related_name='answers')
 
-    # def __str__(self):
-    #     return (self.text[:40] + '...')
+    objects = AnswerManager()
+
+    def __str__(self):
+        return (self.text[:40] + '...')
+
+    def get_likes(self):
+        return self.votes.sum_likes()
+
+
+class TagManager(models.Manager):
+    def popular_tags(self):
+        return self.annotate(raiting = Count('questions')).order_by('-raiting')[:10]
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=30)
 
-    # def __str__(self):
-    #     return self.name
+    objects = TagManager()
+
+    def __str__(self):
+        return self.name
+
+
+class ProfileManager(models.Manager):
+    def top_profiles(self):
+        return self.annotate(raiting = Count('questions')).order_by('-raiting')[:10]
+
 
 class Profile(models.Model):
     avatar = models.ImageField(blank = True, upload_to = "DBImages/")
     user = models.OneToOneField(User, models.CASCADE)
 
-    # def __str__(self):
-    #     return self.user.username
+    objects = ProfileManager()
+
+    def __str__(self):
+        return self.user.username
+
+
+class LikeManager(models.Manager):
+    use_for_related_fields = True
+
+    def sum_likes(self):
+        res = self.filter(vote__gt = 0).aggregate(Sum('vote')).get('vote__sum')
+        if not res:
+            res = 0
+        return res
+
+    def sum_rating(self):
+        return self.get_queryset().aggregate(Sum('vote')).get('vote__sum')
+
 
 class Like(models.Model):
     LIKE = 1
@@ -61,8 +126,8 @@ class Like(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
 
+    objects = LikeManager()
 
-# import random # for random data
 
 # USER = {
 #         'login': 'aleks',
@@ -71,29 +136,3 @@ class Like(models.Model):
 #         'avatar': '',
 #         'is_auth': False,
 #     }
-
-# QUESTIONS = [
-#     {
-#         'id': question_id,
-#         'like_count': random.randint(1, 100),
-#         'title': f'Quesion {question_id}',
-#         'text': f'Text of question {question_id}',
-#         'answers_count': random.randint(1, 10),
-#         'tags': [f'tag {i}' for i in range(random.randint(1, 10))],
-#         'answers': [],
-#     } for question_id in range(10)
-# ]
-
-# for question in QUESTIONS:
-#     question['answers'] = [
-#         {
-#             'id': answer_id,
-#             'like_count': random.randint(1, 100),
-#             'text': f'Text of answer {answer_id}',
-#             'correct': random.choice([True, False]),
-#         } for answer_id in range(question['answers_count'])
-#     ]
-
-# TAGS = [f'Popular tag {tag_id}' for tag_id in range(random.randint(5, 10))]
-
-# BEST_USERS = [f'User {user_id}' for user_id in range(random.randint(2, 7))]
