@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import User
 
 from django.contrib.contenttypes.models import ContentType
@@ -86,8 +85,8 @@ class ProfileManager(models.Manager):
 
 
 class Profile(models.Model):
-    avatar = models.ImageField(blank = True, upload_to = "DBImages/")
-    user = models.OneToOneField(User, models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=False)
+    avatar = models.ImageField(null=True, blank = True, default='/static/img/avatars/default-avatar-icon.jpg')
 
     objects = ProfileManager()
 
