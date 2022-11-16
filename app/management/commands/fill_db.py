@@ -126,16 +126,14 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         retio = None
-        # if options['ratio']
-        #     ratio = int(options['ratio'])
-        # else 
-        #     ratio = 10000
-
-        ratio = 1
+        if options['ratio']
+            ratio = int(options['ratio'])
+        else 
+            ratio = 10000
 
         self.create_users_and_profiles(ratio * USER_COUNT)
-        # self.create_tags(ratio * TAGS_COUNT)
-        # self.create_questions(ratio * QUESTIONS_COUNT)
-        # self.create_answers(ratio * ANSWERS_COUNT)
-        # self.create_questions_likes(ratio * VOTES_COUNT / 2)
-        # self.create_answers_likes(ratio * VOTES_COUNT / 2)
+        self.create_tags(ratio * TAGS_COUNT)
+        self.create_questions(ratio * QUESTIONS_COUNT)
+        self.create_answers(ratio * ANSWERS_COUNT)
+        self.create_questions_likes(ratio * VOTES_COUNT / 2)
+        self.create_answers_likes(ratio * VOTES_COUNT / 2)
