@@ -141,7 +141,7 @@ def hot_questions(request):
     return render(request, 'hot_questions.html', context=context)
 
 
-def paginate(objects_list, request, items_per_page=10):
+def paginate(objects_list, request, items_per_page = 10):
     paginator = Paginator(objects_list, items_per_page)
     page_number = request.GET.get('page')
     page_items = paginator.get_page(page_number)
