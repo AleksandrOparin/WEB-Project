@@ -21,12 +21,12 @@ class QuestionManager(models.Manager):
 
 
 class Question(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length = 255)
     text = models.TextField()
-    tags = models.ManyToManyField('Tag', related_name='questions')
-    author = models.ForeignKey('Profile', models.CASCADE, related_name='questions')
-    pub_date = models.DateTimeField(auto_now_add=True)
-    votes = GenericRelation('Like', related_query_name='questions')
+    tags = models.ManyToManyField('Tag', related_name = 'questions')
+    author = models.ForeignKey('Profile', models.CASCADE, related_name = 'questions')
+    pub_date = models.DateTimeField(auto_now_add = True)
+    votes = GenericRelation('Like', related_query_name = 'questions')
 
     objects = QuestionManager()
 
@@ -53,11 +53,11 @@ class AnswerManager(models.Manager):
 
 class Answer(models.Model):
     text = models.TextField()
-    question = models.ForeignKey(Question, models.CASCADE, related_name='answers')
-    correct = models.BooleanField(default=False)
-    author = models.ForeignKey('Profile', models.CASCADE, related_name='answers')
-    pub_date = models.DateTimeField(auto_now_add=True)
-    votes = GenericRelation('Like', related_name='answers')
+    question = models.ForeignKey(Question, models.CASCADE, related_name = 'answers')
+    correct = models.BooleanField(default = False)
+    author = models.ForeignKey('Profile', models.CASCADE, related_name = 'answers')
+    pub_date = models.DateTimeField(auto_now_add = True)
+    votes = GenericRelation('Like', related_name = 'answers')
 
     objects = AnswerManager()
 
@@ -74,7 +74,7 @@ class TagManager(models.Manager):
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length = 30)
 
     objects = TagManager()
 
@@ -89,7 +89,7 @@ class ProfileManager(models.Manager):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=False)
-    avatar = models.ImageField(null=True, blank = True, default='/static/img/avatars/default-avatar-icon.jpg')
+    avatar = models.ImageField(null = True, blank = True, default='/static/img/avatars/default-avatar-icon.jpg')
 
     objects = ProfileManager()
 
@@ -121,8 +121,8 @@ class Like(models.Model):
         (DISLIKE, 'Dislike')
     )
  
-    vote = models.SmallIntegerField(choices=VOTES, default=NOTHING)
-    user = models.ForeignKey('Profile', models.CASCADE, related_name='likes')
+    vote = models.SmallIntegerField(choices = VOTES, default = NOTHING)
+    user = models.ForeignKey('Profile', models.CASCADE, related_name = 'likes')
  
     content_type = models.ForeignKey(ContentType, models.CASCADE)
     object_id = models.PositiveIntegerField()
