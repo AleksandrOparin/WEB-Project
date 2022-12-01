@@ -1,8 +1,14 @@
 from django.http import HttpResponse
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.contrib import auth
+from django.urls import reverse
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.contenttypes.models import ContentType
 
 from . import models
+from . import forms
 
 def index(request):
     questions = models.Question.objects.new()
@@ -86,7 +92,24 @@ def login(request):
     popular_tags = models.Tag.objects.popular_tags()
     best_users = models.Profile.objects.top_profiles()
 
+    if request.method == 'GET':
+        user_form = forms.LoginForm()
+
+    if request.method == 'POST':
+        user_form = forms.LoginForm(request.POST)
+
+        if user_form.is_valid():
+            user = auth.authenticate(request=request, **user_form.cleaned_data)
+            # Qwerty123Qwerty
+
+            if user:
+                auth.login(request=request, user=user)
+                return redirect(reverse('index'))
+            else:
+                user_form.add_error(field=None,error="Wrong username or password!")
+
     context = {
+        'form': user_form,
         'popular_tags': popular_tags,
         'best_users': best_users,
     }
