@@ -18,7 +18,6 @@ def index(request):
     page_questions = paginate(questions, request, 20)
 
     context = {
-        'user_info': models.USER,
         'questions': page_questions,
         'popular_tags': popular_tags,
         'best_users': best_users,
@@ -41,7 +40,6 @@ def question(request, question_id: int):
     question_page_answers = paginate(answers, request, 20)
 
     context = {
-        'user_info': models.USER,
         'question': question,
         'answers': question_page_answers,
         'popular_tags': popular_tags,
@@ -56,7 +54,6 @@ def ask(request):
     best_users = models.Profile.objects.top_profiles()
 
     context = {
-        'user_info': models.USER,
         'popular_tags': popular_tags,
         'best_users': best_users,
     }
@@ -78,7 +75,6 @@ def tag(request, tag_id: int):
     page_questions_with_tag = paginate(questions_with_tag, request, 20)
 
     context = {
-        'user_info': models.USER,
         'tag_name': tag_name,
         'questions': page_questions_with_tag,
         'popular_tags': popular_tags,
@@ -100,13 +96,12 @@ def login(request):
 
         if user_form.is_valid():
             user = auth.authenticate(request=request, **user_form.cleaned_data)
-            # Qwerty123Qwerty
 
             if user:
                 auth.login(request=request, user=user)
                 return redirect(reverse('index'))
             else:
-                user_form.add_error(field=None,error="Wrong username or password!")
+                user_form.add_error(field=None, error="Wrong username or password!")
 
     context = {
         'form': user_form,
@@ -122,7 +117,6 @@ def settings(request):
     best_users = models.Profile.objects.top_profiles()
 
     context = {
-        'user_info': models.USER,
         'popular_tags': popular_tags,
         'best_users': best_users,
     }
@@ -134,7 +128,23 @@ def signup(request):
     popular_tags = models.Tag.objects.popular_tags()
     best_users = models.Profile.objects.top_profiles()
 
+    if request.method == 'GET':
+        user_form = forms.RegistrationForm()
+    
+    if request.method == 'POST':
+        user_form = forms.RegistrationForm(request.POST)
+
+        if user_form.is_valid():
+            user = user_form.save()
+
+            if user:
+                profile = models.Profile.objects.create(user)
+                return redirect(reverse('index'))
+            else:
+                user_form.add_error(field=None, error="Wrong username or password!")
+
     context = {
+        'form': user_form,
         'popular_tags': popular_tags,
         'best_users': best_users,
     }
@@ -155,7 +165,6 @@ def hot_questions(request):
     page_hot_questions = paginate(hot_questions, request, 20)
 
     context = {
-        'user_info': models.USER,
         'questions': page_hot_questions,
         'popular_tags': popular_tags,
         'best_users': best_users,

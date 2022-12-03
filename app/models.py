@@ -129,12 +129,3 @@ class Like(models.Model):
     content_object = GenericForeignKey()
 
     objects = LikeManager()
-
-
-USER = {
-    'login': 'aleks',
-    'email': 'aleks@mail.ru',
-    'nick_name': 'aleks666',
-    'avatar': '',
-    'is_auth': False,
-}

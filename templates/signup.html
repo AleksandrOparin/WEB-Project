@@ -1,6 +1,7 @@
 {% extends "include/base.html" %}
 
 {% load static %}
+{% load django_bootstrap5 %}
 
 
 {% block page_title %}
@@ -15,8 +16,8 @@
 
 {% block content %}
 
-<form action="#" class="was-validated">
-    <!-- Login -->
+<form action="{% url 'signup' %}" method="post">
+    {% comment %} <!-- Login -->
     <div class="row g-2 align-items-baseline">
         <div class="col-3">
             <label class="form-label">Login</label>
@@ -82,16 +83,10 @@
             <input type="file" class="form-control mt-3" id="nick-name" required>
             <div class="invalid-feedback">Please enter an avatar.</div>
         </div>
-    </div>
+    </div> {% endcomment %}
 
-    <!-- Invalid info (dsplay = none) -->
-    <div class="row g-2 align-items-baseline mt-3">
-        <div class="col-2"></div>
-        <div class="col-8">
-            <span class="invalid-user-info">Sorry, this email adress already registred!</span>
-        </div>
-        <div class="col-2"></div>
-    </div>
+    {% csrf_token %}
+    {% bootstrap_form form layout="horizontal" %}
 
     <!-- Register -->
     <div class="row g-2 align-items-baseline mt-3 mb-3">

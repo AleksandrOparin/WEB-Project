@@ -34,33 +34,33 @@
 
                     <!-- Authentication -->
                     <div class="auth d-flex">
-                        {% if user_info.is_auth %}
-                        <!-- If auth -->
-                        <div class="user-icon icon-medium">
-                            <img src="{% static 'img/default-avatar-icon.jpg' %}" />
-                        </div>
-                        <div class="user-info">
-                            <a href="{% url 'settings' %}" class="user-name no-underline">{{ user_info.login }}</a>
+                        {% if request.user.is_authenticated %}
+                            <!-- If auth -->
+                            <div class="user-icon icon-medium">
+                                <img src="{% static request.user.profile.avatar.url %}" />
+                            </div>
+                            <div class="user-info">
+                                <a href="{% url 'settings' %}" class="user-name no-underline">{{ request.user.username }}</a>
 
+                                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'settings' %}">Settings</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'index' %}">Log out</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        {% else %}
+                            <!-- If not auth -->
                             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'settings' %}">Settings</a>
+                                    <a class="nav-link" href="{% url 'login' %}">Log in</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'index' %}">Log out</a>
+                                    <a class="nav-link" href="{% url 'signup' %}">Register</a>
                                 </li>
                             </ul>
-                        </div>
-                        {% else %}
-                        <!-- If not auth -->
-                        <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'login' %}">Log in</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'signup' %}">Register</a>
-                            </li>
-                        </ul>
                         {% endif %}
                     </div>
                     <!-- Authentication -->
