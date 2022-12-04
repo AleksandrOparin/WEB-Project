@@ -48,4 +48,22 @@ class RegistrationForm(forms.ModelForm):
         self.cleaned_data.pop('password_repeat')
 
         return User.objects.create_user(**self.cleaned_data)
+
+
+class SettingsForm(forms.ModelForm):
+    avatar = forms.ImageField(required=False)
     
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'avatar')
+        
+    def save(self, commit=True):
+        user = super().save()
+
+        profile = user.profile
+        profile.avatar = self.cleaned_data['avatar']
+
+        if profile.avatar:
+            profile.save()
+
+        return user

@@ -1,6 +1,7 @@
 {% extends "include/base.html" %}
 
 {% load static %}
+{% load django_bootstrap5 %}
 
 
 {% block page_title %}
@@ -17,48 +18,13 @@
 {% block content %}
 
 <form action="#" class="was-validated">
-    <!-- Login -->
-    <div class="row g-2 align-items-baseline">
-        <div class="col-3">
-            <label class="form-label">Login</label>
-        </div>
-        <div class="col-9">
-            <input type="text" class="form-control" id="login" placeholder="Login"
-            value="{{ user_info.login }}" required>
-            <div class="invalid-feedback">Please enter a login.</div>
-        </div>
-    </div>
-
-    <!-- Email -->
-    <div class="row g-2 align-items-baseline mt-3">
-        <div class="col-3">
-            <label class="form-label">Email</label>
-        </div>
-        <div class="col-9">
-            <input type="email" class="form-control" id="email" placeholder="vasiliy.pupkin@mail.ru"
-            value="{{ user_info.email }}" required>
-            <div class="invalid-feedback">Please enter an email.</div>
-        </div>
-    </div>
-
-    <!-- NickName -->
-    <div class="row g-2 align-items-baseline mt-3">
-        <div class="col-3">
-            <label class="form-label">NickName</label>
-        </div>
-        <div class="col-9">
-            <input type="text" class="form-control" id="nick-name" placeholder="NickName"
-            value="{{ user_info.nick_name }}" required>
-            <div class="invalid-feedback">Please enter a NickName.</div>
-        </div>
-    </div>
+    {% csrf_token %}
+    {% bootstrap_form form layout="horizontal" %}
 
     <!-- Avatar -->
-    <div class="row g-2 align-items-baseline mt-3">
-        <div class="col-3">
-            <label class="form-label">Apload avatar</label>
-        </div>
-        <div class="col-9">
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label d-flex align-items-center">Apload avatar</label>
+        <div class="col-sm-10">
             <div class="user-icon icon-extra-large">
                 {% if user_info.avatar %}
                     <img src="{% static user_info.avatar %}">

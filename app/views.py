@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.contrib import auth
 from django.urls import reverse
+from django.forms import model_to_dict
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
@@ -112,15 +113,27 @@ def login(request):
     return render(request, 'login.html', context=context)
 
 
+@login_required(login_url='log_in', redirect_field_name='continue')
 def settings(request):
     popular_tags = models.Tag.objects.popular_tags()
     best_users = models.Profile.objects.top_profiles()
 
+    if request.method == 'GET':
+        dict_model_fields = model_to_dict(request.user)
+        user_form = forms.SettingsForm(initial=dict_model_fields)
+
+    if request.method == 'POST':
+        user_form = forms.SettingsForm(request.POST, request.FILES, instance=request.user)
+
+        if user_form.is_valid():
+            user_form.save()
+        return redirect(reverse('settings'))
+
     context = {
+        'form': user_form,
         'popular_tags': popular_tags,
         'best_users': best_users,
     }
-
     return render(request, 'settings.html', context=context)
 
 
