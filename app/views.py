@@ -50,11 +50,38 @@ def question(request, question_id: int):
     return render(request, 'question.html', context=context)
 
 
+@login_required(login_url='login', redirect_field_name='continue')
 def ask(request):
     popular_tags = models.Tag.objects.popular_tags()
     best_users = models.Profile.objects.top_profiles()
 
+    if request.method == 'GET':
+        ask_form = forms.AskForm()
+
+    if request.method == 'POST':
+        ask_form = forms.AskForm(request.POST)
+
+        if ask_form.is_valid():
+            question = ask_form.save()
+
+            if question:
+                question.user = request.user
+                question.save()
+
+                zero_like = models.Like.objects.create(content_type = ContentType.objects.get_for_model(Question), value = 0, owner = request.user, object_id = question.id)
+
+                context = {
+                    'popular_tags': popular_tags,
+                    'best_users': best_users,
+                    'question': question,
+                }
+
+                return render(request,'question.html',context=context)
+            else:
+                ask_form.add_error(field=None,error="Wrong username or password!")
+
     context = {
+        'form': ask_form,
         'popular_tags': popular_tags,
         'best_users': best_users,
     }
@@ -113,7 +140,7 @@ def login(request):
     return render(request, 'login.html', context=context)
 
 
-@login_required(login_url='log_in', redirect_field_name='continue')
+@login_required(login_url='login', redirect_field_name='continue')
 def settings(request):
     popular_tags = models.Tag.objects.popular_tags()
     best_users = models.Profile.objects.top_profiles()

@@ -67,3 +67,28 @@ class SettingsForm(forms.ModelForm):
             profile.save()
 
         return user
+
+
+class AskForm(forms.ModelForm):
+    title = forms.CharField(min_length=6,max_length=255)
+    text = forms.CharField(min_length=25, widget=forms.Textarea)
+    tags = forms.CharField()
+
+    class Meta:
+        model = models.Question
+        fields = ('title', 'text', 'tags')
+
+    def save(self):
+        tag_names = self.cleaned_data['tags']
+        tags = []
+
+        for tag_name in tag_names:
+            tag, created = models.Tag.objects.get_or_create(value=tag_name)
+            tags.append(tag)
+
+        question = models.Question.objects.create(title=self.cleaned_data['title'], text=self.cleaned_data['text'])
+        
+        for tag in tags:
+            question.tags.add(tag)
+
+        return question
