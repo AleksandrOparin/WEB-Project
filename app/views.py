@@ -11,6 +11,7 @@ from django.contrib.contenttypes.models import ContentType
 from . import models
 from . import forms
 
+
 def index(request):
     questions = models.Question.objects.new()
     popular_tags = models.Tag.objects.popular_tags()
@@ -62,23 +63,16 @@ def ask(request):
         ask_form = forms.AskForm(request.POST)
 
         if ask_form.is_valid():
-            question = ask_form.save()
+            new_question = models.Question(title = ask_form.cleaned_data['title'], text = ask_form.cleaned_data['text'], author_id = request.user.profile.id)
+            new_question.save()
 
-            if question:
-                question.user = request.user
-                question.save()
+            add_tags_to_question(ask_form.cleaned_data['tags'], new_question)
 
-                zero_like = models.Like.objects.create(content_type = ContentType.objects.get_for_model(Question), value = 0, owner = request.user, object_id = question.id)
+            print("Before redirect")
+            return redirect(reverse("question", args = [new_question.id]))
 
-                context = {
-                    'popular_tags': popular_tags,
-                    'best_users': best_users,
-                    'question': question,
-                }
-
-                return render(request,'question.html',context=context)
-            else:
-                ask_form.add_error(field=None,error="Wrong username or password!")
+        else:
+            ask_form.add_error(field=None,error="Wrong data!")
 
     context = {
         'form': ask_form,
@@ -168,28 +162,43 @@ def signup(request):
     popular_tags = models.Tag.objects.popular_tags()
     best_users = models.Profile.objects.top_profiles()
 
-    if request.method == 'GET':
-        user_form = forms.RegistrationForm()
-    
-    if request.method == 'POST':
-        user_form = forms.RegistrationForm(request.POST)
+    if request.method == "GET":
+        user_form = forms.SignupForm()
+
+    if request.method == "POST":
+        user_form = forms.SignupForm(data = request.POST, files = request.FILES)
 
         if user_form.is_valid():
-            user = user_form.save()
+            name = user_form.cleaned_data['username']
+            password = user_form.cleaned_data['password']
+
+            new_user = models.User.objects.create_user(username = name, password = password)
+            new_user.save()
+            photo = user_form.files.get('avatar', False)
+
+            if photo:
+                new_profile = models.Profile(user = new_user, avatar = photo)
+            else:
+                new_profile = models.Profile(user = new_user)
+
+            new_profile.save()
+            user = auth.authenticate(username = name, password = password)
 
             if user:
-                profile = models.Profile.objects.create(user)
+                auth.login(request, user)
                 return redirect(reverse('index'))
-            else:
-                user_form.add_error(field=None, error="Wrong username or password!")
-
+    
     context = {
-        'form': user_form,
         'popular_tags': popular_tags,
         'best_users': best_users,
+        'form': user_form
     }
+    return render(request, "signup.html", context)
 
-    return render(request, 'signup.html', context=context)
+
+def logout(request):
+    auth.logout(request)
+    return redirect(reverse('index'))
 
 
 def hot_questions(request):
@@ -219,3 +228,13 @@ def paginate(objects_list, request, items_per_page = 10):
     page_items = paginator.get_page(page_number)
 
     return page_items
+
+
+def add_tags_to_question(tags, question):
+    for tag_name in tags.split(','):
+        tag = models.Tag(name = tag_name)
+        try:
+            tag.save()
+            question.tags.add(tag)
+        except IntegrityError:
+            pass

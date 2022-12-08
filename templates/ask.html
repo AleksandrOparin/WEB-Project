@@ -17,7 +17,7 @@
 {% block content %}
 
 
-<form action="#">
+<form action="{% url 'ask' %}" method="post">
     {% csrf_token %}
     {% bootstrap_form form layout="horizontal" %}
 
