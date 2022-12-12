@@ -37,7 +37,7 @@
                         {% if request.user.is_authenticated %}
                             <!-- If auth -->
                             <div class="user-icon icon-medium">
-                                <img src="{% static request.user.profile.avatar.url %}" />
+                                <img src="{{ request.user.profile.avatar.url }}" />
                             </div>
                             <div class="user-info">
                                 <a href="{% url 'settings' %}" class="user-name no-underline">{{ request.user.username }}</a>

@@ -21,21 +21,6 @@
     {% csrf_token %}
     {% bootstrap_form form layout="horizontal" %}
 
-    <!-- Avatar -->
-    <div class="row mb-3">
-        <label class="col-sm-2 col-form-label d-flex align-items-center">Apload avatar</label>
-        <div class="col-sm-10">
-            <div class="user-icon icon-extra-large">
-                {% if user_info.avatar %}
-                    <img src="{% static user_info.avatar %}">
-                {% else %}
-                    <img src="{% static 'img/default-avatar-icon.jpg' %}">
-                {% endif %}
-            </div>
-            <input type="file" class="form-control mt-3" id="avatar">
-        </div>
-    </div>
-
     <!-- Save -->
     <div class="row g-2 align-items-baseline mt-3">
         <div class="col-5"></div>

@@ -20,12 +20,13 @@ class LoginForm(forms.Form):
 
 
 class SignupForm(forms.ModelForm):
-    password = forms.CharField(min_length=8,widget=forms.PasswordInput)
+    password = forms.CharField(min_length=8,widget=forms.PasswordInput, required=True)
     password_repeat = forms.CharField(min_length=8, widget=forms.PasswordInput)
+    avatar = forms.ImageField(required=False)
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'password']
+        fields = ['username', 'first_name', 'last_name', 'email', 'password', 'password_repeat', 'avatar']
 
     def clean(self):
         password_1 = self.cleaned_data['password']
@@ -46,6 +47,8 @@ class SignupForm(forms.ModelForm):
 
     def save(self):
         self.cleaned_data.pop('password_repeat')
+        print("cleaned_data")
+        print(cleaned_data)
 
         return User.objects.create_user(**self.cleaned_data)
 

@@ -74,7 +74,7 @@ class TagManager(models.Manager):
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length = 30)
+    name = models.CharField(max_length = 30, unique=True)
 
     objects = TagManager()
 
@@ -89,7 +89,7 @@ class ProfileManager(models.Manager):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=False)
-    avatar = models.ImageField(null = True, blank = True, default='/static/img/avatars/default-avatar-icon.jpg')
+    avatar = models.ImageField(null = True, blank = True, default='/static/img/default-avatar-icon.jpg')
 
     objects = ProfileManager()
 

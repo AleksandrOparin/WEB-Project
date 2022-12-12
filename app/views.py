@@ -163,21 +163,21 @@ def signup(request):
     best_users = models.Profile.objects.top_profiles()
 
     if request.method == "GET":
-        user_form = forms.SignupForm()
+        sign_form = forms.SignupForm()
 
     if request.method == "POST":
-        user_form = forms.SignupForm(data = request.POST, files = request.FILES)
+        sign_form = forms.SignupForm(data = request.POST, files = request.FILES)
 
-        if user_form.is_valid():
-            name = user_form.cleaned_data['username']
-            password = user_form.cleaned_data['password']
+        if sign_form.is_valid():
+            name = sign_form.cleaned_data['username']
+            password = sign_form.cleaned_data['password']
 
             new_user = models.User.objects.create_user(username = name, password = password)
             new_user.save()
-            photo = user_form.files.get('avatar', False)
+            avatar = sign_form.files.get('avatar', False)
 
-            if photo:
-                new_profile = models.Profile(user = new_user, avatar = photo)
+            if avatar:
+                new_profile = models.Profile(user = new_user, avatar = avatar)
             else:
                 new_profile = models.Profile(user = new_user)
 
@@ -191,7 +191,7 @@ def signup(request):
     context = {
         'popular_tags': popular_tags,
         'best_users': best_users,
-        'form': user_form
+        'form': sign_form
     }
     return render(request, "signup.html", context)
 
@@ -231,7 +231,7 @@ def paginate(objects_list, request, items_per_page = 10):
 
 
 def add_tags_to_question(tags, question):
-    for tag_name in tags.split(','):
+    for tag_name in tags.split(', '):
         tag = models.Tag(name = tag_name)
         try:
             tag.save()
