@@ -80,3 +80,11 @@ class AskForm(forms.ModelForm):
     class Meta:
         model = models.Question
         fields = ['title', 'text', 'tags']
+
+
+class AnswerForm(forms.ModelForm):
+    text = forms.CharField(widget = forms.Textarea(), required=True)
+
+    class Meta:
+        model = models.Answer
+        fields = ['text']

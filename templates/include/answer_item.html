@@ -17,8 +17,8 @@
             <div class="answer-text">{{ answer.text }}</div>
             <div class="answer-footer d-flex">
                 <div class="form-check p-0">
-                    {% if answer.correct %}
-                        <input class="answer-check" type="checkbox" value="" id="answer-check" checked>
+                    {% if answer.author.id != request.user.id %}
+                        <input class="answer-check" type="checkbox" value="" id="answer-check" disabled>
                     {% else %}
                         <input class="answer-check" type="checkbox" value="" id="answer-check">
                     {% endif %}

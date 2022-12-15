@@ -1,6 +1,7 @@
 {% extends "include/base.html" %}
 
 {% load static %}
+{% load django_bootstrap5 %}
 
 
 {% block page_title %}
@@ -29,26 +30,24 @@
 {% include 'include/pagination.html' with page_obj=answers %}
 <!-- Pagination -->
 
-<!-- Line -->
-<div class="vertical-line mb-3"></div>
-<!-- Line -->
+{% if request.user.is_authenticated %}
+    <!-- Line -->
+    <div class="vertical-line mb-3"></div>
+    <!-- Line -->
 
-<!-- Answer text -->
-<form action="#" class="mb-3" role="answer">
-    <div class="row g-2 align-items-baseline mt-3">
-        <div class="col">
-            <textarea class="form-control" id="text" rows="6"
-            placeholder="Enter your answer here.."></textarea>
-        </div>
-    </div>
+    <!-- Answer text -->
+    <form action="{% url 'question' question_id=question.id %}" method="post" class="mb-3" role="answer">
+        {% csrf_token %}
+        {% bootstrap_form form layout="horizontal" %}
 
-    <div class="row g-2 align-items-baseline mt-3">
-        <div class="col-5"></div>
-        <div class="col-2">
-            <button type="submit" class="answer-btn btn btn-primary w-100">Answer</button>
+        <div class="row g-2 align-items-baseline mt-3">
+            <div class="col-5"></div>
+            <div class="col-2">
+                <button type="submit" class="answer-btn btn btn-primary w-100">Answer</button>
+            </div>
+            <div class="col-5"></div>
         </div>
-        <div class="col-5"></div>
-    </div>
-</form>
+    </form>
+{% endif %}
 
 {% endblock %}

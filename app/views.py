@@ -17,7 +17,7 @@ def index(request):
     popular_tags = models.Tag.objects.popular_tags()
     best_users = models.Profile.objects.top_profiles()
 
-    page_questions = paginate(questions, request, 20)
+    page_questions = paginate(questions, request)
 
     context = {
         'questions': page_questions,
@@ -34,21 +34,35 @@ def question(request, question_id: int):
         question = models.Question.objects.get(id = question_id)
     except models.Question.DoesNotExist:
         return render(request, 'errors/404.html')
-    
+
+    if request.method == 'GET':
+        answer_form = forms.AnswerForm()
+
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return redirect("login")
+
+        form = forms.AnswerForm(data = request.POST)
+        if form.is_valid():
+            new_ans = models.Answer(text = form.cleaned_data['text'], question_id = question_id, author_id = request.user.profile.id)
+            new_ans.save()
+
+            return redirect(reverse("question", args = [question_id]))
+
     answers = models.Answer.objects.ordered_answers(question_id)
+    question_page_answers = paginate(answers, request, 10)
     popular_tags = models.Tag.objects.popular_tags()
     best_users = models.Profile.objects.top_profiles()
-
-    question_page_answers = paginate(answers, request, 20)
 
     context = {
         'question': question,
         'answers': question_page_answers,
         'popular_tags': popular_tags,
         'best_users': best_users,
+        'form' : answer_form,
     }
 
-    return render(request, 'question.html', context=context)
+    return render(request, "question.html", context=context)
 
 
 @login_required(login_url='login', redirect_field_name='continue')
@@ -94,7 +108,7 @@ def tag(request, tag_id: int):
     popular_tags = models.Tag.objects.popular_tags()
     best_users = models.Profile.objects.top_profiles()
 
-    page_questions_with_tag = paginate(questions_with_tag, request, 20)
+    page_questions_with_tag = paginate(questions_with_tag, request)
 
     context = {
         'tag_name': tag_name,
@@ -211,7 +225,7 @@ def hot_questions(request):
     popular_tags = models.Tag.objects.popular_tags()
     best_users = models.Profile.objects.top_profiles()
 
-    page_hot_questions = paginate(hot_questions, request, 20)
+    page_hot_questions = paginate(hot_questions, request)
 
     context = {
         'questions': page_hot_questions,
@@ -222,7 +236,7 @@ def hot_questions(request):
     return render(request, 'hot_questions.html', context=context)
 
 
-def paginate(objects_list, request, items_per_page = 10):
+def paginate(objects_list, request, items_per_page = 20):
     paginator = Paginator(objects_list, items_per_page)
     page_number = request.GET.get('page')
     page_items = paginator.get_page(page_number)
