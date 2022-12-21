@@ -89,7 +89,7 @@ class ProfileManager(models.Manager):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=False)
-    avatar = models.ImageField(null = True, blank = True, default='/static/img/default-avatar-icon.jpg')
+    avatar = models.ImageField(null=True, blank = True, default='/static/img/default-avatar-icon.jpg', upload_to='avatar/%Y/%m/%d/')
 
     objects = ProfileManager()
 

@@ -17,9 +17,18 @@
 
 {% block content %}
 
-<form action="#" class="was-validated">
+<form action="{% url 'settings' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form form layout="horizontal" %}
+
+    <!-- Avatar -->
+    <div class="row g-2 mt-3">
+        <div class="col-2">
+            <div class="user-icon icon-extra-large ">
+                <img src="{{ request.user.profile.avatar.url }}">
+            </div>
+        </div>
+    </div>
 
     <!-- Save -->
     <div class="row g-2 align-items-baseline mt-3">
