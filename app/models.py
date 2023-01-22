@@ -101,12 +101,6 @@ class LikeManager(models.Manager):
     use_for_related_fields = True
 
     def sum_likes(self):
-        res = self.filter(vote__gt = 0).aggregate(Sum('vote')).get('vote__sum')
-        if not res:
-            res = 0
-        return res
-
-    def sum_rating(self):
         return self.get_queryset().aggregate(Sum('vote')).get('vote__sum')
 
 

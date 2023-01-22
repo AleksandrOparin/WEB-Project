@@ -1,12 +1,40 @@
-{% load static %}
+{% load app_filters %}
 
 <div class="answer">
     <div class="row">
         <div class="col-3 d-flex">
             <div class="user-likes">
-                <div class="like-up"></div>
-                <div class="like-count">{{ answer.get_likes }}</div>
-                <div class="like-down"></div>
+                {% if answer|isAnswerLikeUp:request.user.profile %}
+                    <div class="like-answer-btn-up active" data-id="{{ answer.id }}">
+                        <i class="fa-solid fa-angle-up fa-3x"></i>
+                    </div>
+
+                    <div class="like-count" data-id="{{ answer.id }}">{{ answer.get_likes }}</div>
+
+                    <div class="like-answer-btn-down" data-id="{{ answer.id }}">
+                        <i class="fa-solid fa-angle-down fa-3x"></i>
+                    </div>
+                {% elif answer|isAnswerLikeDown:request.user.profile %}
+                    <div class="like-answer-btn-up" data-id="{{ answer.id }}">
+                        <i class="fa-solid fa-angle-up fa-3x"></i>
+                    </div>
+
+                    <div class="like-count" data-id="{{ answer.id }}">{{ answer.get_likes }}</div>
+
+                    <div class="like-answer-btn-down active" data-id="{{ answer.id }}">
+                        <i class="fa-solid fa-angle-down fa-3x"></i>
+                    </div>
+                {% else %}
+                    <div class="like-answer-btn-up" data-id="{{ answer.id }}">
+                        <i class="fa-solid fa-angle-up fa-3x"></i>
+                    </div>
+
+                    <div class="like-count" data-id="{{ answer.id }}">{{ answer.get_likes }}</div>
+
+                    <div class="like-answer-btn-down" data-id="{{ answer.id }}">
+                        <i class="fa-solid fa-angle-down fa-3x"></i>
+                    </div>
+                {% endif %}
             </div>
 
             <div class="user-icon icon-large">

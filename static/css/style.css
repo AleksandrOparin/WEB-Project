@@ -116,20 +116,21 @@
     padding: 5px 25px;
 }
 
-.like-up,
-.like-down {
-    width: 48px;
-    height: 48px;
-    background-image: url("/static/img/arrow.png");
+.like-question-btn-up,
+.like-question-btn-down,
+.like-answer-btn-up,
+.like-answer-btn-down {
     cursor: pointer;
 }
 
-.like-down {
-    transform: rotate(180deg);
+.like-question-btn-up.active,
+.like-question-btn-down.active,
+.like-answer-btn-up.active,
+.like-answer-btn-down.active {
+    color: green;
 }
 
-.like-count,
-.dislike-count {
+.like-count {
     font-size: 18px;
     color: #858585;
 }

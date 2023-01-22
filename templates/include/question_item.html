@@ -1,12 +1,40 @@
-{% load static %}
+{% load app_filters %}
 
 <div class="question">
     <div class="row">
         <div class="col-3 d-flex">
             <div class="user-likes">
-                <div class="like-up"></div>
-                <div class="like-count">{{ question.get_likes }}</div>
-                <div class="like-down"></div>
+                {% if question|isQuestionLikeUp:request.user.profile %}
+                    <div class="like-question-btn-up active" data-id="{{ question.id }}">
+                        <i class="fa-solid fa-angle-up fa-3x"></i>
+                    </div>
+
+                    <div class="like-count" data-id="{{ question.id }}">{{ question.get_likes }}</div>
+
+                    <div class="like-question-btn-down" data-id="{{ question.id }}">
+                        <i class="fa-solid fa-angle-down fa-3x"></i>
+                    </div>
+                {% elif question|isQuestionLikeDown:request.user.profile %}
+                    <div class="like-question-btn-up" data-id="{{ question.id }}">
+                        <i class="fa-solid fa-angle-up fa-3x"></i>
+                    </div>
+
+                    <div class="like-count" data-id="{{ question.id }}">{{ question.get_likes }}</div>
+
+                    <div class="like-question-btn-down active" data-id="{{ question.id }}">
+                        <i class="fa-solid fa-angle-down fa-3x"></i>
+                    </div>
+                {% else %}
+                    <div class="like-question-btn-up" data-id="{{ question.id }}">
+                        <i class="fa-solid fa-angle-up fa-3x"></i>
+                    </div>
+
+                    <div class="like-count" data-id="{{ question.id }}">{{ question.get_likes }}</div>
+
+                    <div class="like-question-btn-down" data-id="{{ question.id }}">
+                        <i class="fa-solid fa-angle-down fa-3x"></i>
+                    </div>
+                {% endif %}
             </div>
 
             <div class="user-icon icon-large">

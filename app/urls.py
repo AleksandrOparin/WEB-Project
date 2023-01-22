@@ -12,8 +12,12 @@ urlpatterns = [
     path('login', views.login, name='login'),
     path('settings', views.settings, name='settings'),
     path('signup', views.signup, name='signup'),
-    path("logout", views.logout, name="logout"),
+    path('logout', views.logout, name="logout"),
     path('hot', views.hot_questions, name='hot_questions'),
+    path('likequestion/', views.like_question, name='like_question'),
+    path('dislikequestion/', views.dislike_question, name='dislike_question'),
+    path('likeanswer/', views.like_answer, name='like_answer'),
+    path('dislikeanswer/', views.dislike_answer, name='dislike_answer'),
 ]
 
 if settings.DEBUG:

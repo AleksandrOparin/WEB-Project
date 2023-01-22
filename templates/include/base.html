@@ -11,6 +11,9 @@
 
         <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
         <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+
+        <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+        <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
     </head>
 
     <body>
@@ -105,5 +108,11 @@
             </div>
         </main>
         <!-- End page content -->
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+        <script>
+            var csrftoken = '{{ csrf_token }}';
+        </script>
     </body>
 </html>

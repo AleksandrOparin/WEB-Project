@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.http.response import JsonResponse
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.contrib import auth
@@ -6,6 +7,7 @@ from django.urls import reverse
 from django.forms import model_to_dict
 
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 from django.contrib.contenttypes.models import ContentType
 
 from . import models
@@ -28,6 +30,7 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 
+@require_http_methods(['GET','POST'])
 def question(request, question_id: int):
     question = None
     try:
@@ -46,6 +49,8 @@ def question(request, question_id: int):
         if form.is_valid():
             new_ans = models.Answer(text = form.cleaned_data['text'], question_id = question_id, author_id = request.user.profile.id)
             new_ans.save()
+
+            models.Like.objects.create(content_type = ContentType.objects.get_for_model(models.Answer), vote = 0, user = request.user.profile, object_id = new_ans.id) # zero like to new answer
 
             return redirect(reverse("question", args = [question_id]))
 
@@ -66,6 +71,7 @@ def question(request, question_id: int):
 
 
 @login_required(login_url='login', redirect_field_name='continue')
+@require_http_methods(['GET','POST'])
 def ask(request):
     popular_tags = models.Tag.objects.popular_tags()
     best_users = models.Profile.objects.top_profiles()
@@ -82,7 +88,8 @@ def ask(request):
 
             add_tags_to_question(ask_form.cleaned_data['tags'], new_question)
 
-            print("Before redirect")
+            models.Like.objects.create(content_type = ContentType.objects.get_for_model(models.Question), vote = 0, user = request.user.profile, object_id = new_question.id) # zero like to new question
+
             return redirect(reverse("question", args = [new_question.id]))
 
         else:
@@ -120,6 +127,7 @@ def tag(request, tag_id: int):
     return render(request, 'tag.html', context=context)
 
 
+@require_http_methods(['GET','POST'])
 def login(request):
     popular_tags = models.Tag.objects.popular_tags()
     best_users = models.Profile.objects.top_profiles()
@@ -149,6 +157,7 @@ def login(request):
 
 
 @login_required(login_url='login', redirect_field_name='continue')
+@require_http_methods(['GET','POST'])
 def settings(request):
     popular_tags = models.Tag.objects.popular_tags()
     best_users = models.Profile.objects.top_profiles()
@@ -186,7 +195,11 @@ def signup(request):
             name = sign_form.cleaned_data['username']
             password = sign_form.cleaned_data['password']
 
-            new_user = models.User.objects.create_user(username = name, password = password)
+            first_name = sign_form.cleaned_data['first_name']
+            last_name = sign_form.cleaned_data['last_name']
+            email = sign_form.cleaned_data['email']
+
+            new_user = models.User.objects.create_user(username = name, first_name = first_name, last_name = last_name, email = email, password = password)
             new_user.save()
             avatar = sign_form.files.get('avatar', False)
 
@@ -234,6 +247,100 @@ def hot_questions(request):
     }
 
     return render(request, 'hot_questions.html', context=context)
+
+
+@login_required
+def like_question(request):
+    question_id = request.POST['question_id']
+    question = models.Question.objects.get(id = question_id)
+
+    # find like and dislike on this question
+    like = models.Like.objects.filter(content_type = ContentType.objects.get_for_model(models.Question), 
+    vote = 1, user = request.user.profile, object_id = question.id)
+    dislike = models.Like.objects.filter(content_type = ContentType.objects.get_for_model(models.Question), 
+    vote = -1, user = request.user.profile, object_id = question.id)
+
+    # if dislike exists
+    if dislike:
+        dislike.delete()
+
+    # if like does not exist
+    if not like:
+        like = models.Like.objects.create(content_type = ContentType.objects.get_for_model(models.Question), vote = 1, user = request.user.profile, object_id = question.id) # add like
+        like.save()
+
+    return JsonResponse({"question_id" : question_id, "likes_count" : question.get_likes()})
+
+
+@login_required
+def dislike_question(request):
+    question_id = request.POST['question_id']
+    question = models.Question.objects.get(id = question_id)
+
+    # find like and dislike on this question
+    like = models.Like.objects.filter(content_type = ContentType.objects.get_for_model(models.Question), 
+    vote = 1, user = request.user.profile, object_id = question.id)
+    dislike = models.Like.objects.filter(content_type = ContentType.objects.get_for_model(models.Question), 
+    vote = -1, user = request.user.profile, object_id = question.id)
+
+    # if like exists
+    if like:
+        like.delete()
+
+    # if dislike does not exist
+    if not dislike:
+        dislike = models.Like.objects.create(content_type = ContentType.objects.get_for_model(models.Question), vote = -1, user = request.user.profile, object_id = question.id) # add dislike
+        dislike.save()
+
+    return JsonResponse({"question_id" : question_id, "likes_count" : question.get_likes()})
+
+
+@login_required
+def like_answer(request):
+    answer_id = request.POST['answer_id']
+    answer = models.Answer.objects.get(id = answer_id)
+
+    # find like and dislike on this answer
+    like = models.Like.objects.filter(content_type = ContentType.objects.get_for_model(models.Answer), 
+    vote = 1, user = request.user.profile, object_id = answer.id)
+    dislike = models.Like.objects.filter(content_type = ContentType.objects.get_for_model(models.Answer), 
+    vote = -1, user = request.user.profile, object_id = answer.id)
+
+    # if dislike exists
+    if dislike:
+        dislike.delete()
+
+    # if like does not exist
+    if not like:
+        like = models.Like.objects.create(content_type = ContentType.objects.get_for_model(models.Answer), 
+        vote = 1, user = request.user.profile, object_id = answer.id) # add like
+        like.save()
+
+    return JsonResponse({"answer_id" : answer_id, "likes_count" : answer.get_likes()})
+
+
+@login_required
+def dislike_answer(request):
+    answer_id = request.POST['answer_id']
+    answer = models.Answer.objects.get(id = answer_id)
+
+    # find like and dislike on this answer
+    like = models.Like.objects.filter(content_type = ContentType.objects.get_for_model(models.Answer), 
+    vote = 1, user = request.user.profile, object_id = answer.id)
+    dislike = models.Like.objects.filter(content_type = ContentType.objects.get_for_model(models.Answer), 
+    vote = -1, user = request.user.profile, object_id = answer.id)
+
+    # if like exists
+    if like:
+        like.delete()
+
+    # if dislike does not exist
+    if not dislike:
+        dislike = models.Like.objects.create(content_type = ContentType.objects.get_for_model(models.Answer), 
+        vote = -1, user = request.user.profile, object_id = answer.id) # add dislike
+        dislike.save()
+
+    return JsonResponse({"answer_id" : answer_id, "likes_count" : answer.get_likes()})
 
 
 def paginate(objects_list, request, items_per_page = 20):
