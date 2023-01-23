@@ -2,7 +2,12 @@
 
 <div class="answer">
     <div class="row">
-        <div class="col-3 d-flex">
+        <div class="col-3 d-flex align-items-center">
+            <div class="correct" data-id="{{ answer.id }}">
+                {% if answer.correct %}
+                    <i class="fa-solid fa-check fa-2x"></i>
+                {% endif %}
+            </div>
             <div class="user-likes">
                 {% if answer|isAnswerLikeUp:request.user.profile %}
                     <div class="like-answer-btn-up active" data-id="{{ answer.id }}">
@@ -45,12 +50,13 @@
             <div class="answer-text">{{ answer.text }}</div>
             <div class="answer-footer d-flex">
                 <div class="form-check p-0">
-                    {% if answer.author.id != request.user.id %}
-                        <input class="answer-check" type="checkbox" value="" id="answer-check" disabled>
-                    {% else %}
-                        <input class="answer-check" type="checkbox" value="" id="answer-check">
+                    {% if question.author.id == request.user.profile.id %}
+                        {% if answer.correct %}
+                            <input class="answer-check" type="checkbox" value="Set correct" data-id="{{ answer.id }}" checked>
+                        {% else %}
+                            <input class="answer-check" type="checkbox" value="Set correct" data-id="{{ answer.id }}">
+                        {% endif %}
                     {% endif %}
-                    <label for="answer-check">Correct!</label>
                 </div>
             </div>
         </div>

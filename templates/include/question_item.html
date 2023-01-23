@@ -2,7 +2,7 @@
 
 <div class="question">
     <div class="row">
-        <div class="col-3 d-flex">
+        <div class="col-3 d-flex align-items-center">
             <div class="user-likes">
                 {% if question|isQuestionLikeUp:request.user.profile %}
                     <div class="like-question-btn-up active" data-id="{{ question.id }}">
@@ -37,7 +37,7 @@
                 {% endif %}
             </div>
 
-            <div class="user-icon icon-large">
+            <div class="user-icon">
                 <img src="{{ question.author.avatar.url }}" alt="" />
             </div>
         </div>

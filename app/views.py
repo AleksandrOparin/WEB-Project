@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.forms import model_to_dict
 
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_http_methods, require_POST
 from django.contrib.contenttypes.models import ContentType
 
 from . import models
@@ -250,6 +250,7 @@ def hot_questions(request):
 
 
 @login_required
+@require_POST
 def like_question(request):
     question_id = request.POST['question_id']
     question = models.Question.objects.get(id = question_id)
@@ -273,6 +274,7 @@ def like_question(request):
 
 
 @login_required
+@require_POST
 def dislike_question(request):
     question_id = request.POST['question_id']
     question = models.Question.objects.get(id = question_id)
@@ -296,6 +298,7 @@ def dislike_question(request):
 
 
 @login_required
+@require_POST
 def like_answer(request):
     answer_id = request.POST['answer_id']
     answer = models.Answer.objects.get(id = answer_id)
@@ -320,6 +323,7 @@ def like_answer(request):
 
 
 @login_required
+@require_POST
 def dislike_answer(request):
     answer_id = request.POST['answer_id']
     answer = models.Answer.objects.get(id = answer_id)
@@ -343,6 +347,37 @@ def dislike_answer(request):
     return JsonResponse({"answer_id" : answer_id, "likes_count" : answer.get_likes()})
 
 
+@login_required
+@require_POST
+def correct_answer(request):
+    answer_id = request.POST['answer_id']
+    new_correct_answer = models.Answer.objects.get(id = answer_id)
+    question = new_correct_answer.question
+
+    if question.author.user == request.user:
+        old_correct_answer = get_correct_answer(question)
+
+        if old_correct_answer:
+            if old_correct_answer == new_correct_answer:
+                new_correct_answer.correct = False
+            else:
+                old_correct_answer.correct = False
+                new_correct_answer.correct = True
+            old_correct_answer.save()
+        else:
+            new_correct_answer.correct = True
+        new_correct_answer.save()
+
+        return JsonResponse({
+                "status" : True,
+                "correct" : new_correct_answer.correct,
+                "new_correct_answer_id" : answer_id,
+                "old_correct_answer_id" : f'{old_correct_answer.id}' if old_correct_answer else False
+            })
+    else:
+        return JsonResponse({"status" : False })
+
+
 def paginate(objects_list, request, items_per_page = 20):
     paginator = Paginator(objects_list, items_per_page)
     page_number = request.GET.get('page')
@@ -359,3 +394,12 @@ def add_tags_to_question(tags, question):
             question.tags.add(tag)
         except IntegrityError:
             pass
+
+
+def get_correct_answer(question):
+    for answer in question.get_answers():
+        if answer.correct:
+            return answer
+
+    return False
+

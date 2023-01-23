@@ -96,3 +96,39 @@ $(".like-answer-btn-down").on('click', function (ev) {
         )
     );
 })
+
+
+$(".answer-check").change(function (ev) {
+    const request = new Request('http://127.0.0.1:8000/correctanswer/',
+        {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+            },
+            body: 'answer_id=' + $(this).data('id'),
+        }
+    )
+
+    fetch(request).then(
+        response_raw => response_raw.json().then(
+            response_json => {
+                if (response_json.status) {
+                    const new_id = response_json.new_correct_answer_id;
+                    const old_id = response_json.old_correct_answer_id;
+
+                    if (response_json.correct) {
+                        $('.correct[data-id=' + new_id + ']').append("<i class='fa-solid fa-check fa-2x'></i>");
+                    } else {
+                        $('.correct[data-id=' + new_id + ']').empty();
+                    }
+
+                    if (new_id != old_id) {
+                        $('.answer-check[data-id=' + old_id + ']').removeAttr('checked');
+                         $('.correct[data-id=' + old_id + ']').empty();
+                    }
+                }
+            }
+        )
+    );
+})
